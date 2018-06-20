@@ -1,5 +1,6 @@
 #include "find_ellipse.h"
 #include "track_ellipse.h"
+#include <openacc.h>
 
 
 // Temporal variable for computing
@@ -10,6 +11,12 @@ float *strel = NULL;
 const int radius = 12;
 const int strel_m = radius * 2 + 1;
 const int strel_n = radius * 2 + 1;
+
+
+void choose_GPU() {
+	acc_init(acc_device_nvidia);
+	acc_set_device_num(0, acc_device_nvidia);
+}
 
 
 // Main
@@ -59,6 +66,9 @@ int main(int argc, char ** argv) {
 
 	int grad_m = grad_x->m;
 	int grad_n = grad_y->n;
+
+	MAT *gicov, *img_dilated;
+	long long GICOV_start_time, GICOV_end_time, dilate_start_time, dilate_end_time;
 	
 #pragma acc data create(sin_angle,cos_angle,theta,tX,tY) \
 	create(gicov_mem[0:grad_x->m*grad_y->n])
@@ -67,14 +77,14 @@ int main(int argc, char ** argv) {
 	compute_constants();
 
 	// Get GICOV matrices corresponding to image gradients
-	long long GICOV_start_time = get_time();
-	MAT *gicov = GICOV(grad_x, grad_y);
-	long long GICOV_end_time = get_time();
+	GICOV_start_time = get_time();
+	gicov = GICOV(grad_x, grad_y);
+	GICOV_end_time = get_time();
 
 	// Dilate the GICOV matrices
-	long long dilate_start_time = get_time();
-	MAT *img_dilated = dilate(gicov);
-	long long dilate_end_time = get_time();
+	dilate_start_time = get_time();
+	img_dilated = dilate(gicov);
+	dilate_end_time = get_time();
 } /* end acc data */
 	
 	// Find possible matches for cell centers based on GICOV and record the rows/columns in which they are found

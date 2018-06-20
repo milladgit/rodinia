@@ -11,16 +11,19 @@
 // The size of the structuring element used in dilation
 #define STREL_SIZE (12 * 2 + 1)
 
+extern int tX[NCIRCLES * NPOINTS], tY[NCIRCLES * NPOINTS];
+extern float sin_angle[NPOINTS], cos_angle[NPOINTS], theta[NPOINTS];
+extern float *strel;
 
 // Sets up and invokes the GICOV kernel and returns its output
 float *gicov_kernel(int grad_m, int grad_n, 
-	                float *host_grad_x, float *host_grad_y, 
+	                float *grad_x, float *grad_y, 
 			        float *gicov) {
 
 	int i, j;
     
 	// Execute the GICOV kernel
-	#pragma acc kernels loop
+	#pragma acc kernels loop present(grad_x, grad_y, gicov)
 	for (i = 0; i < grad_m; i++) {
 		for (j = 0; j < grad_n; j++) {
 
@@ -82,7 +85,7 @@ float *dilate_kernel(float *gicov, float *img_dilated,
 	int el_center_j = strel_n / 2;
 
 	// Execute the dilation kernel
-	#pragma acc kernels loop
+	#pragma acc kernels loop present(gicov, img_dilated, strel)
 	for (i = 0; i < max_gicov_n; i++) {
 		for (j = 0; j < max_gicov_m; j++) {
 			// Initialize the maximum GICOV score seen so far to zero

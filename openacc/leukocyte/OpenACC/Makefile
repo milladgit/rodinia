@@ -1,8 +1,13 @@
 include ../../../common/make.config
 
 # C compiler
-CC = pathcc
-CC_FLAGS = -g -O3 -Wall -acc -I$(MATRIX_DIR)
+CC = pgc++
+CC_FLAGS = -w -acc -ta=tesla -Minfo=accel -O3 -std=c++11 -Mcuda -I$(MATRIX_DIR)
+
+NVCC=nvcc
+NVCC_FLAGS=-O3 -I$(MATRIX_DIR) -std c++11
+
+# CC_FLAGS += -g -O0
 
 # Matrix library path
 MATRIX_DIR = ../meschach_lib
@@ -20,8 +25,8 @@ detect_main.o: detect_main.c find_ellipse.h track_ellipse.h avilib.h
 find_ellipse_kernel.o: find_ellipse_kernel.c find_ellipse_kernel.h
 	$(CC) $(CC_FLAGS) -c find_ellipse_kernel.c
 
-track_ellipse_kernel.o: track_ellipse_kernel.c track_ellipse_kernel.h
-	$(CC) $(CC_FLAGS) -I$(MATRIX_DIR) -c track_ellipse_kernel.c
+track_ellipse_kernel.o: track_ellipse_kernel.cu track_ellipse_kernel.h
+	$(NVCC) $(NVCC_FLAGS) -I$(MATRIX_DIR) -c track_ellipse_kernel.cu
 
 find_ellipse.o: avilib.h
 
