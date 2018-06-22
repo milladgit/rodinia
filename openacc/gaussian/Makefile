@@ -1,7 +1,7 @@
 include ../../common/make.config
 
-CC := pathcc
-CCFLAGS := -acc
+CC := pgc++
+CCFLAGS := -acc -ta=tesla -Minfo=accel -O3 -std=c++11 -Mcuda
 
 SRC = gaussian.c
 EXE = gaussian

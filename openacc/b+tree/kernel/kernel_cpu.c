@@ -76,7 +76,7 @@ kernel_cpu(	int cores_arg,
 	int i;
 
 	// process number of querries
-	#pragma acc kernels
+	#pragma acc kernels present(records,knodes,currKnode,offset,keys,ans)
 	for(bid = 0; bid < count; bid++){
 
 		// process levels of the tree
@@ -99,7 +99,7 @@ kernel_cpu(	int cores_arg,
 		}
 	}
 
-	#pragma acc kernels
+	#pragma acc kernels present(records,knodes,currKnode,offset,keys,ans)
 	for(bid = 0; bid < count; bid++){
 
 		// process levels of the tree
@@ -111,7 +111,7 @@ kernel_cpu(	int cores_arg,
 		}
 	}
 
-	#pragma acc kernels
+	#pragma acc kernels present(records,knodes,currKnode,offset,keys,ans)
 	for(bid = 0; bid < count; bid++){
 
 		//At this point, we have a candidate leaf node which may contain

@@ -42,7 +42,7 @@ void BFSGraph( int argc, char** argv)
 {
     char *input_f;
 
-    int* h_cost;
+    // int* h_cost;
     int* h_graph_edges;
 	
 	if(argc!=2){
@@ -70,6 +70,7 @@ void BFSGraph( int argc, char** argv)
 	bool *h_graph_mask = (bool*) malloc(sizeof(bool)*no_of_nodes);
 	bool *h_updating_graph_mask = (bool*) malloc(sizeof(bool)*no_of_nodes);
 	bool *h_graph_visited = (bool*) malloc(sizeof(bool)*no_of_nodes);
+	int  *h_cost = (int*) malloc(sizeof(int)*no_of_nodes);
 
 	int start, edgeno;   
 	// initalize the memory
@@ -121,7 +122,7 @@ void BFSGraph( int argc, char** argv)
 	}
 
 	// allocate mem for the result on host side
-	h_cost = (int*) malloc( sizeof(int)*no_of_nodes);
+	// h_cost = (int*) malloc( sizeof(int)*no_of_nodes);
 	#pragma acc parallel loop
 	for(int i=0;i<no_of_nodes;i++) {
 		h_cost[i]=-1;

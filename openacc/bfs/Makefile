@@ -1,8 +1,10 @@
 # C compiler
-CC = pgcpp
-CC_FLAGS = -acc -O2 -Minfo
+CC = pgc++
+CC_FLAGS = -acc -ta=tesla -Minfo=accel -O3 -std=c++11 -Mcuda
 
-bfs: 
+# CC_FLAGS+=-g 
+
+bfs: bfs.cpp
 	$(CC) $(CC_FLAGS) bfs.cpp -o bfs 
 
 clean:

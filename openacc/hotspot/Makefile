@@ -1,6 +1,6 @@
 # C compiler
-CC = pgcpp
-CC_FLAGS = -acc -Minfo -O2
+CC = pgc++
+CC_FLAGS = -acc -ta=tesla -Minfo=accel -O3 -std=c++11 -Mcuda
 
 hotspot: 
 	$(CC) $(CC_FLAGS) hotspot_openacc.cpp -o hotspot 

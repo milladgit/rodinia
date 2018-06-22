@@ -2219,7 +2219,6 @@ main(	int argc,
 							// false);				// bool
 				// }
 
-
 				pFile = fopen (output,"aw+");
 				if (pFile==NULL)
 				  {
@@ -2232,7 +2231,6 @@ main(	int argc,
 				}
 				fprintf(pFile, " \n");
                                 fclose(pFile);
-
 				// free memory
 				free(currKnode);
 				free(offset);
