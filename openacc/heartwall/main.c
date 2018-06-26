@@ -39,7 +39,7 @@ int in_pointer[ALL_POINTS];
 fp** d_in2;
 //  CONVOLUTION
 fp** d_conv;
-fp* d_in_mod; ???
+fp* d_in_mod; 
 //  PAD ARRAY, VERTICAL CUMULATIVE SUM
 fp** d_in2_pad_cumv;
 //  SELECTION

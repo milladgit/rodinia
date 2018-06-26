@@ -1,8 +1,8 @@
-include ../../common/make.config
+# include ../../common/make.config
 
 # C compiler
-CC = pathcc
-CC_FLAGS = -g -acc -O2 
+CC = pgcc
+CC_FLAGS = -w -acc -ta=tesla -O3 
 
 kmeans: cluster.o getopt.o kmeans.o kmeans_clustering.o kmeans_kernel.o rmse.o
 	$(CC) $(CC_FLAGS) cluster.o getopt.o kmeans.o kmeans_clustering.o kmeans_cuda.o rmse.o -o kmeans

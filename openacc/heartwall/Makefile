@@ -1,5 +1,5 @@
-CC = pathcc
-CC_FLAGS = -acc -O3
+CC = pgcc
+CC_FLAGS = -acc -ta=tesla -O3 -Mcuda
 
 # link objects(binaries) together
 heartwall: main.o ./AVI/avilib.o ./AVI/avimod.o

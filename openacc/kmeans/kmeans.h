@@ -53,6 +53,9 @@ float	rms_err(float**, int, int, float**, int);
 int     cluster(int, int, float**, int, int, float, int*, float***, float*, int, int);
 
 /* kmeans_clustering.c */
-float **kmeans_clustering(float**, int, int, int, float, int*);
-
+float* kmeans_clustering(float  *feature,    /* in: [npoints][nfeatures] */
+                         int     nfeatures,
+                         int     npoints,
+                         int     nclusters,
+                         float   threshold);
 #endif

@@ -19,6 +19,8 @@ float  *feature_flipped_d;											/* original (not inverted) data array */
 float  *block_new_centers;											/* sum of points in a cluster (per block) */
 float  *block_clusters_d;											/* per block calculation of cluster centers */
 
+int     *membership_new;	/* newly assignment membership */
+
 
 /* -------------- allocateMemory() ------------------- */
 /* allocate device memory, calculate number of blocks and threads, and invert the data array */

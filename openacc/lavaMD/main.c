@@ -259,9 +259,8 @@ main(	int argc,
 	//====================================================================================================100
 	//	CPU/MCPU
 	//====================================================================================================100
-
-	#pragma acc data copy(fv_cpu[0:dim_cpu.space_mem]) \
-		copyin(box_cpu[0:dim_cpu.box_mem],rv_cpu[0:dim_cpu.space_mem],qv_cpu[0:dim_cpu.space_mem2])
+	#pragma acc data copy(fv_cpu[0:dim_cpu.space_elem]) \
+		copyin(box_cpu[0:dim_cpu.number_boxes],rv_cpu[0:dim_cpu.space_elem],qv_cpu[0:dim_cpu.space_elem])
 	{
 	kernel_acc(	par_cpu,
 				dim_cpu,

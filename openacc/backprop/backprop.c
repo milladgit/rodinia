@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include "backprop.h"
 #include <math.h>
+#include <openacc.h>
 
 #define ABS(x)          (((x) > 0.0) ? (x) : (-(x)))
 
@@ -71,6 +72,11 @@ float **alloc_2d_dbl(int m, int n)
   }
 
   new[0] = (float *) malloc ((unsigned) (m * n * sizeof (float)));
+  if(new[0] == NULL) {
+    printf("ALLOC_2D_DBL: Couldn't allocate array of dbl ptrs - 2nd allocation\n");
+    exit(1);
+    return (NULL);
+  }
   for (i = 1 ; i < m; i++) {
     new[i] = new[i-1] + n;
   }
@@ -166,23 +172,23 @@ void bpnn_free(BPNN *net)
   n1 = net->input_n;
   n2 = net->hidden_n;
 
-  free((char *) net->input_units);
-  free((char *) net->hidden_units);
-  free((char *) net->output_units);
+  free(net->input_units);
+  free(net->hidden_units);
+  free(net->output_units);
 
-  free((char *) net->hidden_delta);
-  free((char *) net->output_delta);
-  free((char *) net->target);
+  free(net->hidden_delta);
+  free(net->output_delta);
+  free(net->target);
 
   free_2d(net->input_weights);
   free_2d(net->input_prev_weights);
   free_2d(net->hidden_weights);
   free_2d(net->hidden_prev_weights);
 
-  free((char *) net->hidden_weights);
-  free((char *) net->hidden_prev_weights);
+  free(net->hidden_weights);
+  free(net->hidden_prev_weights);
 
-  free((char *) net);
+  free(net);
 }
 
 
@@ -224,7 +230,10 @@ void bpnn_layerforward(float *l1, float *l2, float **conn, int n1, int n2)
   #pragma acc kernels present(l1[0:n1])
   l1[0] = 1.0;
 
-  #pragma acc parallel loop present(l1[0:n1],l2[0:n2],conn[0:n1*n2])
+  printf("===IS PRESENT: %d\n", acc_is_present(&conn[0][0], sizeof(float) * n1 * n2));
+
+  // #pragma acc parallel loop present(l1[0:n1],l2[0:n2],conn[0:n1*n2])
+  #pragma acc parallel loop present(l1[0:n1],l2[0:n2],conn[0:n1][0:n2])
   /*** For each unit in second layer ***/
   for (j = 1; j <= n2; j++) {
 

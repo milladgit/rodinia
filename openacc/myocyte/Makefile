@@ -7,8 +7,8 @@
           # .
 	# command n
 
-CC = pathcc
-CCFLAGS = -acc
+CC = pgcc
+CCFLAGS = -acc -ta=tesla -O3 -Minfo=accel
 
 # link objects(binaries) together
 myocyte.out:	main.o
@@ -32,4 +32,4 @@ main.o: 	main.c \
 
 # delete all object files
 clean:
-	rm *.o myocyte.out output.txt
+	rm -rf *.o myocyte.out output.txt

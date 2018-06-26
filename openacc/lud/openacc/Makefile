@@ -3,7 +3,7 @@
 #
 
 # DEBUG can be set to YES to include debugging info, or NO otherwise
-DEBUG          := YES
+DEBUG          := NO
 
 # PROFILE can be set to YES to include profiling info, or NO otherwise
 PROFILE        := NO
@@ -15,23 +15,23 @@ EXECUTABLE      := lud_openacc
 SOURCES         := lud.c lud_openacc.c ../common/common.c 
 
 # ------------  compiler  ------------------------------------------------------
-CC              := pathcc
-CXX             := pathCC
+CC              := pgcc
+CXX             := pgc++
 
 # ------------  compiler flags  ------------------------------------------------
 DEBUG_CFLAGS    := -O0 -g
 RELEASE_CFLAGS  := -O3 
-COMMON_CFLAGS   := -acc
+COMMON_CFLAGS   := -acc -ta=tesla 
 
 # ------------  compiler defs  ------------------------------------------------
-DEBUG_CDEFS    := 
-RELEASE_CDEFS  := 
+DEBUG_CDEFS    := -O0 -g
+RELEASE_CDEFS  := -O3
 COMMON_CDEFS   := 
 
 # ------------  linker flags  --------------------------------------------------
 DEBUG_LDFLAGS    := -g
 RELEASE_LDFLAGS  := 
-COMMON_LDFLAGS   := -acc
+COMMON_LDFLAGS   := -acc -ta=tesla
 
 ifeq (YES, ${DEBUG})
   CFLAGS       := ${DEBUG_CFLAGS} ${DEBUG_CDEFS}

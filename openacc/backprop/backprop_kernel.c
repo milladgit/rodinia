@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <sys/time.h>
+#include <openacc.h>
 
 #include "backprop.h"
 
@@ -68,18 +69,29 @@ void bpnn_train_kernel(BPNN *net, float *eo, float *eh)
 
 #pragma acc data copyin(input_units[0:in]) \
   create(hidden_units[0:hid], output_units[0:out]) \
-  copyin(input_weights[0:in][0:hid], hidden_weights[0:hid][0:out]) \
+  copyin(input_weights[0:in][0:hid]) \
+  copyin(hidden_weights[0:hid][0:out]) \
   create(hidden_delta[0:hid], output_delta[0:out]) \
   create(input_prev_weights[0:in][0:hid], hidden_prev_weights[0:hid][0:out]) \
   copyin(target[0:out])
 {
-  printf("Performing CPU computation\n");
-  bpnn_layerforward(input_units, hidden_units, input_weights, in, hid);
-  bpnn_layerforward(hidden_units, output_units, hidden_weights, hid, out);
-  bpnn_output_error(output_delta, target, output_units, out, &out_err);
-  bpnn_hidden_error(hidden_delta, hid, output_delta, out, hidden_weights, hidden_units, &hid_err);
-  bpnn_adjust_weights(output_delta, out, hidden_units, hid, hidden_weights, hidden_prev_weights);
-  bpnn_adjust_weights(hidden_delta, hid, input_units, in, input_weights, input_prev_weights);
-} /* end acc data */
+  printf("===IS PRESENT input_weights : %d - %d:%d\n", acc_is_present(&input_weights[0][0], sizeof(float)), in, hid);
+  printf("===IS PRESENT hidden_weights : %d - %d:%d\n", acc_is_present(&hidden_weights[0][0], sizeof(float)), hid, out);
 
+  printf("Performing CPU computation\n");
+  printf("======= HELLO 1\n"); fflush(stdout);
+  bpnn_layerforward(input_units, hidden_units, input_weights, in, hid);
+  printf("======= HELLO 2\n"); fflush(stdout);
+  bpnn_layerforward(hidden_units, output_units, hidden_weights, hid, out);
+  printf("======= HELLO 3\n"); fflush(stdout);
+  // bpnn_output_error(output_delta, target, output_units, out, &out_err);
+  // printf("======= HELLO 4\n"); fflush(stdout);
+  // bpnn_hidden_error(hidden_delta, hid, output_delta, out, hidden_weights, hidden_units, &hid_err);
+  // printf("======= HELLO 5\n"); fflush(stdout);
+  // bpnn_adjust_weights(output_delta, out, hidden_units, hid, hidden_weights, hidden_prev_weights);
+  // printf("======= HELLO 6\n"); fflush(stdout);
+  // bpnn_adjust_weights(hidden_delta, hid, input_units, in, input_weights, input_prev_weights);
+  // printf("======= HELLO 7\n"); fflush(stdout);
+} /* end acc data */
+exit(1);
 }
