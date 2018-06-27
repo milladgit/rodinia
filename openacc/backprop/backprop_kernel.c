@@ -77,6 +77,9 @@ void bpnn_train_kernel(BPNN *net, float *eo, float *eh)
 {
   printf("===IS PRESENT input_weights : %d - %d:%d\n", acc_is_present(&input_weights[0][0], sizeof(float)), in, hid);
   printf("===IS PRESENT hidden_weights : %d - %d:%d\n", acc_is_present(&hidden_weights[0][0], sizeof(float)), hid, out);
+  printf("===IS PRESENT input_units : %d - %d:%d\n", acc_is_present(&input_units[0], sizeof(float)), hid, out);
+  printf("===IS PRESENT hidden_units : %d - %d:%d\n", acc_is_present(&hidden_units[0], sizeof(float)), hid, out);
+  printf("===IS PRESENT output_units : %d - %d:%d\n", acc_is_present(&output_units[0], sizeof(float)), hid, out);
 
   printf("Performing CPU computation\n");
   printf("======= HELLO 1\n"); fflush(stdout);

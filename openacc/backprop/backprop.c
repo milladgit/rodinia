@@ -230,7 +230,7 @@ void bpnn_layerforward(float *l1, float *l2, float **conn, int n1, int n2)
   #pragma acc kernels present(l1[0:n1])
   l1[0] = 1.0;
 
-  printf("===IS PRESENT: %d\n", acc_is_present(&conn[0][0], sizeof(float) * n1 * n2));
+  printf("===IS PRESENT: %d\n", acc_is_present(conn, sizeof(float) * n1 * n2));
 
   // #pragma acc parallel loop present(l1[0:n1],l2[0:n2],conn[0:n1*n2])
   #pragma acc parallel loop present(l1[0:n1],l2[0:n2],conn[0:n1][0:n2])

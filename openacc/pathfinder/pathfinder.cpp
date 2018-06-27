@@ -12,7 +12,7 @@ void run(int argc, char** argv);
 #define pin_stats_pause(cycles)   stopCycle(cycles)
 #define pin_stats_dump(cycles)    printf("timer: %Lu\n", cycles)
 
-#define BENCH_PRINT
+// #define BENCH_PRINT
 
 int rows, cols;
 int* data;
@@ -94,7 +94,7 @@ void run(int argc, char** argv)
         temp = src;
         src = dst;
         dst = temp;
-        #pragma acc kernels
+        #pragma acc parallel loop independent
         for(int n = 0; n < cols; n++){
           min = src[n];
           if (n > 0)

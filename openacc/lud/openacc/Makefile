@@ -21,7 +21,7 @@ CXX             := pgc++
 # ------------  compiler flags  ------------------------------------------------
 DEBUG_CFLAGS    := -O0 -g
 RELEASE_CFLAGS  := -O3 
-COMMON_CFLAGS   := -acc -ta=tesla 
+COMMON_CFLAGS   := -acc -ta=tesla -Minfo=accel 
 
 # ------------  compiler defs  ------------------------------------------------
 DEBUG_CDEFS    := -O0 -g
@@ -31,7 +31,7 @@ COMMON_CDEFS   :=
 # ------------  linker flags  --------------------------------------------------
 DEBUG_LDFLAGS    := -g
 RELEASE_LDFLAGS  := 
-COMMON_LDFLAGS   := -acc -ta=tesla
+COMMON_LDFLAGS   := -acc -ta=tesla -Minfo=accel
 
 ifeq (YES, ${DEBUG})
   CFLAGS       := ${DEBUG_CFLAGS} ${DEBUG_CDEFS}

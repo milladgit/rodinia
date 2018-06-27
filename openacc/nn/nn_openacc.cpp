@@ -5,6 +5,8 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <sys/time.h>
 #include <float.h>
 #include <math.h>
@@ -84,7 +86,7 @@ int main(int argc, char* argv[])
     /**
      * Execute kernel
      */
-    #pragma acc kernels copyin(locations[0:numRecords]) copyout(distances[0:numRecords])
+    #pragma acc parallel loop independent copyin(locations[0:numRecords]) copyout(distances[0:numRecords])
     for (i=0; i<numRecords; i++) {
       LatLong latlong = locations[i];
       distances[i] = (float)sqrt((lat-latlong.lat)*(lat-latlong.lat)+(lng-latlong.lng)*(lng-latlong.lng));

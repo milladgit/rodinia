@@ -1,14 +1,15 @@
-include ../../common/make.config
+# include ../../common/make.config
 
-CC = pathcc
-CC_FLAGS = -g -O3 -acc
+CC = pgc++
+CC_FLAGS = -w -acc -ta=tesla -Minfo=accel -O3 -std=c++11 
 
-TARGET_G = sc_gpu
 
-$(TARGET_G): streamcluster.cpp streamcluster_kernel.cpp
-	$(CC) $(CC_FLAGS) streamcluster.cpp streamcluster_kernel.cpp -o $(TARGET_G)
+all: streamcluster
+
+streamcluster: streamcluster.cpp streamcluster_kernel.cpp
+	$(CC) $(CC_FLAGS) streamcluster.cpp streamcluster_kernel.cpp -o streamcluster 
 	
 
 clean:
-	rm -f *.o *~ *.txt $(TARGET_G) *.linkinfo
+	rm -f *.o *~ *.txt streamcluster
 	

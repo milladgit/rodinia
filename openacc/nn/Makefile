@@ -1,12 +1,13 @@
+
 LOCAL_CC = gcc -g -O3 -Wall
-CC = pathCC
-CFLAGS = -O3 -acc
+CC = pgc++
+CFLAGS = -acc -ta=tesla -Minfo=accel -O3 -std=c++11 
 
 
 all : nn
 
 clean :
-	rm -rf *.o nn
+	rm -rf *.o nn hurricane_gen
 
 nn : nn_openacc.cpp
 	$(CC) $(CFLAGS) -o $@ $< $(LDFLAGS) -lm 

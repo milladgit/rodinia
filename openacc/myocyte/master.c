@@ -1,7 +1,7 @@
 //=====================================================================
 //	MAIN FUNCTION
 //=====================================================================
-
+#pragma acc routine seq
 inline void master(fp timeinst,
 					fp* initvalu,
 					fp* params,
@@ -123,13 +123,13 @@ inline void master(fp timeinst,
 	//		make sure function does not return NANs and INFs
 	//====================================================================================================
 
-	for(i=0; i<EQUATIONS; i++){
-		if (isnan(finavalu[i]) == 1){ 
-			finavalu[i] = 0.0001;												// for NAN set rate of change to 0.0001
-		}
-		else if (isinf(finavalu[i]) == 1){ 
-			finavalu[i] = 0.0001;												// for INF set rate of change to 0.0001
-		}
-	}
+	// for(i=0; i<EQUATIONS; i++){
+	// 	if (isnan(finavalu[i]) == 1){ 
+	// 		finavalu[i] = 0.0001;												// for NAN set rate of change to 0.0001
+	// 	}
+	// 	else if (isinf(finavalu[i]) == 1){ 
+	// 		finavalu[i] = 0.0001;												// for INF set rate of change to 0.0001
+	// 	}
+	// }
 
 }

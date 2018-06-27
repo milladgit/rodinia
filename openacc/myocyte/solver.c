@@ -164,8 +164,12 @@ int solver(	fp*** y,
 			//		MAKE ATTEMPTS TO MINIMIZE ERROR
 			//==========================================================================================
 
+			int should_break = 0;	// trick to avoid breaks inside the loop
 			// make attempts to minimize error
 			for (j = 0; j < ATTEMPTS; j++) {
+
+				if(should_break == 1) 
+					continue;
 
 				//============================================================
 				//		REINITIALIZE VARIABLES
@@ -201,7 +205,10 @@ int solver(	fp*** y,
 				}
 				if (error != 1) {
 					scale_fina = MAX_SCALE_FACTOR; 
-					break;
+
+					// break;
+					should_break = 1;
+					continue;
 				}
 
 				//============================================================
@@ -232,7 +239,9 @@ int solver(	fp*** y,
 					}
 				}
 				if (outside == 0){
-					break;
+					// break;
+					should_break = 1;
+					continue;
 				}
 
 				//============================================================

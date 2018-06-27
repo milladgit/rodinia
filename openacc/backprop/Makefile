@@ -2,10 +2,9 @@
 #CC = pathcc
 #CC_FLAGS = -acc -O2
 CC = pgcc
-# CC_FLAGS = -acc -O3 -Minfo -I /usr/include/i386-linux-gnu/ -L /usr/lib/i386-linux-gnu/
-CC_FLAGS = -acc -ta=tesla -O3 -Minfo=accel 
+CC_FLAGS = -acc -ta=tesla -Minfo=accel -O3 
 
-CC_FLAGS += -O0 -g
+# CC_FLAGS += -O0 -g
 
 
 backprop: backprop.o facetrain.o imagenet.o backprop_kernel.o 
