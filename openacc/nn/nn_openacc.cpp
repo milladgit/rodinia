@@ -11,6 +11,7 @@
 #include <float.h>
 #include <math.h>
 #include <vector>
+#include <omp.h>
 
 #define min( a, b )			a > b ? b : a
 #define ceilDiv( a, b )		( a + b - 1 ) / b
@@ -81,7 +82,14 @@ int main(int argc, char* argv[])
 	*/
 	distances = (float *)malloc(sizeof(float) * numRecords);
 	locations = (LatLong *) malloc(sizeof(LatLong) * numRecords);
-  for (i=0; i<numRecords; i++) locations[i] = locations_vec[i];
+
+
+  double time;
+  time = omp_get_wtime();
+
+
+  for (i=0; i<numRecords; i++) 
+    locations[i] = locations_vec[i];
 
     /**
      * Execute kernel
@@ -94,6 +102,11 @@ int main(int argc, char* argv[])
 
 	// find the resultsCount least distances
     findLowest(records,distances,numRecords,resultsCount);
+
+
+  time = omp_get_wtime() - time;
+  printf("Total time: %.2f\n", time);
+
 
     // print out results
     if (!quiet)

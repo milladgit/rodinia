@@ -1,7 +1,7 @@
 
 LOCAL_CC = gcc -g -O3 -Wall
 CC = pgc++
-CFLAGS = -acc -ta=tesla -Minfo=accel -O3 -std=c++11 
+CFLAGS = -mp -acc -ta=tesla -Minfo=accel -O3 -std=c++11 
 
 
 all : nn
