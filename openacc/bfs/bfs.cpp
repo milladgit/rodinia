@@ -3,6 +3,8 @@
 #include <math.h>
 #include <stdlib.h>
 
+#include <omp.h>
+
 #define TRANSFER_GRAPH_NODE 1
 
 int no_of_nodes;
@@ -28,9 +30,17 @@ fprintf(stderr,"Usage: %s <input_file>\n", argv[0]);
 ////////////////////////////////////////////////////////////////////////////////
 int main( int argc, char** argv) 
 {
+	double totalTime;
+	totalTime = omp_get_wtime();
+
 	no_of_nodes=0;
 	edge_list_size=0;
 	BFSGraph( argc, argv);
+	
+	totalTime = omp_get_wtime() - totalTime;
+	printf("Total time: %.2fus\n", totalTime*1E6);
+
+	return 0;
 }
 
 
@@ -104,6 +114,8 @@ void BFSGraph( int argc, char** argv)
 	create(h_graph_nodes[0:no_of_nodes], h_graph_edges[0:edge_list_size]) \
 	copyout(h_cost[0:no_of_nodes])
 {
+	double time = omp_get_wtime();
+
 	#pragma acc update device(h_graph_nodes[0:no_of_nodes]) async(TRANSFER_GRAPH_NODE)
 
 	#pragma acc parallel loop
@@ -177,7 +189,10 @@ void BFSGraph( int argc, char** argv)
 	}
 	while(stop);
 
-} /* end acc data */
+	time = omp_get_wtime() - time;
+	printf("Total time for computation: %.2f\n", time*1E6);
+
+} /* end acc data */	
 
 	//Store the result into a file
 	FILE *fpo = fopen("result.txt","w");
@@ -185,7 +200,6 @@ void BFSGraph( int argc, char** argv)
 		fprintf(fpo,"%d) cost:%d\n",i,h_cost[i]);
 	fclose(fpo);
 	printf("Result stored in result.txt\n");
-
 
 	// cleanup memory
 	free( h_graph_nodes);
