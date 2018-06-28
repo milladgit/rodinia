@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     struct timeval time_end;
     unsigned int time_total;
 
-    int verbose = 1;
+    int verbose = 0;
     if (argc < 2) {
         printf("Usage: gaussian matrix.txt [-q]\n\n");
         printf("-q (quiet) suppresses printing the matrix and result values.\n");
