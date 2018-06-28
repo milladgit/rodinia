@@ -2179,7 +2179,7 @@ main(	int argc,
 
 #pragma acc data create(currKnode[0:count],offset[0:count],ans[0:count]) \
         create(keys[0:count],records[0:records_elem],knodes[0:knodes_elem]) \
-        copyout(ans[0:count])
+        copyout(ans[0:count]),copy(mem[0:malloc_size])
 {
         #pragma acc update device(keys[0:count],records[0:records_elem],knodes[0:knodes_elem]) \
             async(TRANSFER_KERNEL_DATA)
@@ -2329,7 +2329,7 @@ main(	int argc,
 #pragma acc data create(currKnode[0:count],offset[0:count]) \
     create(start[0:count],end[0:count]) \
     create(lastKnode[0:count],offset_2[0:count]) \
-    copyout(recstart[0:count],reclength[0:count])
+    copyout(recstart[0:count],reclength[0:count]),copy(mem[0:malloc_size])
 {
         #pragma acc update device(start[0:count],end[0:count]) \
             async(TRANSFER_KERNEL_DATA)
