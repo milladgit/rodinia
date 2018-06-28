@@ -5,6 +5,7 @@
 #include <string.h>
 #include <math.h>
 #include <sys/time.h>
+#include <omp.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // declaration, forward
@@ -127,6 +128,8 @@ runTest( int argc, char** argv)
 	#pragma acc data copy(input_itemsets[0:max_rows*max_cols]) \
 	    copyin(referrence[0:max_rows*max_cols])
 	{
+		double time;
+		time = omp_get_wtime();
 		
 	#pragma acc parallel loop
     for( int i = 1; i< max_rows ; i++)
@@ -163,6 +166,10 @@ runTest( int argc, char** argv)
 	      }
 
 	}
+
+		time = omp_get_wtime() - time;
+		printf("Total time: %.2fus\n", time*1E6);
+
 	
 	} /* end pragma acc data */
 
