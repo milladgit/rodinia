@@ -84,10 +84,11 @@ void run(int argc, char** argv)
     int *src, *dst, *temp;
     int min;
 
+    pin_stats_reset();
+
     dst = result;
     src = new int[cols];
 
-    pin_stats_reset();
     #pragma acc data create(src[0:cols]) copy(dst[0:cols], data[0:rows*cols])
     {
     for (int t = 0; t < rows-1; t++) {
