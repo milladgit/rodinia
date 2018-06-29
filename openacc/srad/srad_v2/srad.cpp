@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <omp.h>
 
 void random_matrix(float *I, int rows, int cols);
 
@@ -64,6 +65,10 @@ int main(int argc, char* argv[])
 	size_I = cols * rows;
     size_R = (r2-r1+1)*(c2-c1+1);   
 
+    double total_time;
+    total_time = omp_get_wtime();
+
+
 	I = (float *)malloc( size_I * sizeof(float) );
     J = (float *)malloc( size_I * sizeof(float) );
 	c  = (float *)malloc(sizeof(float)* size_I) ;
@@ -112,6 +117,10 @@ int main(int argc, char* argv[])
     }
    
 	printf("Start the SRAD main loop\n");
+
+	double main_loop_time;
+	main_loop_time = omp_get_wtime();
+
 
 #ifdef ITERATION
 	for (iter=0; iter< niter; iter++){
@@ -192,7 +201,14 @@ int main(int argc, char* argv[])
 	}
 #endif
 
+	main_loop_time = omp_get_wtime();
+	printf("Main Loop Time: %.2fus\n", main_loop_time*1E6);
+
 } /* end acc data */
+
+    total_time = omp_get_wtime();
+    printf("Total Time: %.2fus\n", total_time*1E6);
+
 
 #ifdef OUTPUT
 	  for( int i = 0 ; i < rows ; i++){
