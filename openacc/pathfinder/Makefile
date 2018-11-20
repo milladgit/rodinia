@@ -2,7 +2,7 @@
 CC = pgc++
 SRC = pathfinder.cpp
 EXE = pathfinder
-FLAGS = -w -acc -ta=tesla -Minfo=accel -O3 -std=c++11 
+FLAGS = -w -mp -acc -ta=tesla -Minfo=accel -O3 -std=c++11 
 
 all: release
 
